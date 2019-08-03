@@ -5,6 +5,9 @@ import './App.css';
 
 
 export default function App() {
+
+  var title = 'Title';
+  
   return (
     <div className="App">
       <Navbar />

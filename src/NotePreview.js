@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
+import contentCrop from './util/contentCrop';
+
 const useStyles = makeStyles(theme => ({
   card: {
   },
@@ -31,7 +33,7 @@ export default function NotePreview({title, content}) {
         </Typography>
         <Divider variant="root" />
         <Typography variant="h6" className={classes.content}>
-          {content}
+          {contentCrop(content)}
         </Typography>
       </CardContent>
     </Card>
