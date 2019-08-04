@@ -12,17 +12,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoteList(notes) {
+export default function NoteList({notes, deleteNote}) {
   const classes = useStyles();
+
+  function handleDelete(id) {
+    deleteNote(id);
+  }
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
 
-        {notes.notes.map(note => {
+        {notes.map(note => {
           return(
             <Grid item xs={12} sm={6} md={4} lg={3}>        
-              <NotePreview title={note.title} content={note.content} />
+              <NotePreview deleteNote={handleDelete} id={note.id} title={note.title} content={note.content} />
             </Grid>
           );
         })}

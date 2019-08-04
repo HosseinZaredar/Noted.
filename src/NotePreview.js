@@ -2,9 +2,12 @@ import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -30,15 +33,28 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     margin: "5px"
   },
+  button: {
+    float: 'right',
+  },
+  icon: {
+    color: '#616161',
+    '&:hover': {
+      color: '#212121',
+    }
+  }
 }));
 
-export default function NotePreview({title, content}) {
+export default function NotePreview({id, title, content, deleteNote}) {
   const classes = useStyles();
 
   var [isOpen, setIsOpen] = useState(false);
 
   function handleClick() {
     setIsOpen(!isOpen);
+  }
+
+  function handleDelete() {
+    deleteNote(id);
   }
 
   return (
@@ -59,6 +75,10 @@ export default function NotePreview({title, content}) {
             <Typography variant="h6" className={classes.content}>
               {content}
             </Typography>
+            <br></br>
+            <EditIcon className={classes.icon}/>
+            <DeleteIcon className={classes.icon} onClick={handleDelete}/>
+            <Button color="inherit" className={classes.button} onClick={handleClick}>Close</Button>
           </DialogContent>
 
           

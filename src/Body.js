@@ -23,10 +23,17 @@ export default function Body() {
     setNotes([...notes, note]);
   }
 
+  function deleteNote(id) {
+    var newNotes = notes.filter(function (note, index, arr) {
+      return note.id != id;
+    })
+    setNotes(newNotes);
+  }
+
   return (
     <div className={classes.root}>
       <NewNote handleAdd={handleAdd} />
-      <NoteList notes={notes} />
+      <NoteList deleteNote={deleteNote} notes={notes} />
     </div>
   );
 }

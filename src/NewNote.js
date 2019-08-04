@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function NewNote(handleAdd) {
+export default function NewNote({handleAdd}) {
   const classes = useStyles();
 
   var [isOpen, setIsOpen] = useState(false);
@@ -50,7 +50,8 @@ export default function NewNote(handleAdd) {
 
   function handleSubmit() {
     setIsOpen(false);
-    handleAdd.handleAdd({
+    handleAdd({
+      id: Date.now(),
       title: title,
       content: content
     });
