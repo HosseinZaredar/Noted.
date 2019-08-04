@@ -4,28 +4,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
 
 
 const useStyles = makeStyles(theme => ({
   card: {
     margin: '15px',
     display: 'block',
-    transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
-    '&:hover': {
-      boxShadow: "0 4px 7px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22)"
-    }
   },
-  title : {
-    display: 'block'
+  title: {
+    display: 'block',
   },
-  content : {
-    display: 'block'
+  content: {
+    display: 'block',
   },
-  takeNote : {
+  takeNote: {
     fontSize: 16
+  },
+  button: {
+    float: 'right',
+    marginBottom: '5px'
   }
 }));
 
@@ -59,35 +58,45 @@ export default function NewNote(handleAdd) {
     setContent('');
   }
 
+  function handleDiscard() {
+    setIsOpen(false);
+    setTitle('');
+    setContent('');
+  }
+
   var items;
   if (!isOpen) {
     items = 
-      <Typography variant="h6" className={classes.takeNote}>
-        Take a note...
-      </Typography>
+      <InputBase
+        placeholder="Take a note..."
+        inputProps={{ 'aria-label': 'naked' }}
+        margin="none"
+      />
   } else {
     items = 
       <div>
-        <TextField
-          label="Title"
+        <InputBase
+          placeholder="Title"
           name="title"
           className={classes.title}
           value={title}
           onChange={handleChange}
+          inputProps={{ 'aria-label': 'naked' }}
           margin="none"
         />
-        <TextField
-        id="standard-multiline-flexible"
-        label="Content"
-        name="content"
-        multiline
-        rowsMax="4"
-        value={content}
-        onChange={handleChange}
-        className={classes.content}
-        margin="normal"
+        <InputBase
+          placeholder="Content"
+          name="content"
+          multiline
+          rowsMax="8"
+          inputProps={{ 'aria-label': 'naked' }}
+          value={content}
+          onChange={handleChange}
+          className={classes.content}
+          margin="none"
         />
-        <Button color="inherit" onClick={handleSubmit}>Done</Button>
+        <Button color="inherit" className={classes.button} onClick={handleSubmit}>Done</Button>
+        <Button color="inherit" className={classes.button} onClick={handleDiscard}>Discard</Button>
       </div>
   }
 
@@ -95,7 +104,7 @@ export default function NewNote(handleAdd) {
     <div>
       <Grid container spacing={0} alignItems="center" justify="center">
         
-        <Grid item xs={12} sm={10} lg={8} onClick={handleClick}>        
+        <Grid item xs={12} sm={10} md={8} onClick={handleClick}>        
           <Card className={classes.card} xs={6}>
             <CardContent>
               {items}
