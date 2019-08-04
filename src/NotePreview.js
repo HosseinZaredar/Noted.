@@ -7,9 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 
 import contentCrop from './util/contentCrop';
 
@@ -67,16 +65,16 @@ export default function NotePreview({title, content}) {
         </Dialog>
       }
       <Card className={classes.card} onClick={handleClick}>
-      <CardContent>
-        <Typography variant="h6" className={classes.title}>
-          {title}
-        </Typography>
-        <Divider variant="root" />
-        <Typography variant="h6" className={classes.content}>
-          {contentCrop(content)}
-        </Typography>
-      </CardContent>
-    </Card>
+        <CardContent>
+          <Typography variant="h6" className={classes.title}>
+            {title}
+          </Typography>
+          <Divider variant="root" />
+          <Typography variant="h6" className={classes.content}>
+            {contentCrop(content)}
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   );
 }

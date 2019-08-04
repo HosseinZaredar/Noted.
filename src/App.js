@@ -1,7 +1,8 @@
 import React from 'react';
 import Navbar from './Navbar';
-import NoteList from './NoteList';
+
 import './App.css';
+import Body from './Body';
 
 
 export default function App() {
@@ -11,7 +12,7 @@ export default function App() {
   return (
     <div className="App">
       <Navbar />
-      <NoteList />
+      <Body />
     </div>
   );
 }
