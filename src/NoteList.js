@@ -12,11 +12,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoteList({notes, deleteNote}) {
+export default function NoteList({notes, deleteNote, saveNote}) {
   const classes = useStyles();
 
   function handleDelete(id) {
     deleteNote(id);
+  }
+
+  function handleSave(id, note) {
+    saveNote(id, note);
   }
 
   return (
@@ -26,7 +30,7 @@ export default function NoteList({notes, deleteNote}) {
         {notes.map(note => {
           return(
             <Grid item xs={12} sm={6} md={4} lg={3}>        
-              <NotePreview deleteNote={handleDelete} id={note.id} title={note.title} content={note.content} />
+              <NotePreview deleteNote={handleDelete} saveNote={handleSave} id={note.id} title={note.title} content={note.content} />
             </Grid>
           );
         })}

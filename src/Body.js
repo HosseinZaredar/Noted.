@@ -30,10 +30,16 @@ export default function Body() {
     setNotes(newNotes);
   }
 
+  function saveNote(id, note) {
+    var index = notes.findIndex(note => note.id === id);
+    notes[index] = {id: id, ...note};
+    setNotes([...notes]);    
+  }
+
   return (
     <div className={classes.root}>
       <NewNote handleAdd={handleAdd} />
-      <NoteList deleteNote={deleteNote} notes={notes} />
+      <NoteList deleteNote={deleteNote} saveNote={saveNote} notes={notes} />
     </div>
   );
 }

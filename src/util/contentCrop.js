@@ -4,7 +4,7 @@ export default function contentCrop(content) {
     return content;
   else {
     var i = 400;
-    while (i < content.length && content[i] != ' ')
+    while (i < content.length && content[i] !== ' ')
       i++;
     return content.slice(0, i) + '...';
   }
