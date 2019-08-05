@@ -1,14 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Navbar from './Navbar';
-
 import './App.css';
 import Body from './Body';
-
+import axios from 'axios';
 
 export default function App() {
 
-  var title = 'Title';
-  
   return (
     <div className="App">
       <Navbar />
