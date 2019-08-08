@@ -9,8 +9,28 @@ router.get('/', function(req, res, next) {
 router.post('/signup', function(req, res, next) {
   User.create({...req.body}, function(err, record) {
     res.status(200).json({
-      status: 'Done!'
+      status: 'Signed up!'
     });
+  });
+});
+
+router.post('/login', function(req, res, next) {
+  User.findOne({email: req.body.email}, function(err, user) {
+    if (user) {
+      if (user.password === req.body.password) {
+        res.status(200).json({
+          status: 'Logged in!'
+        });
+      } else {
+        res.status(200).json({
+          status: 'Wrong password'
+        });
+      }
+    } else {
+      res.status(200).json({
+        status: 'No such user!'
+      });
+    }
   });
 });
 

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import SignUp from './SignUp';
+import Login from './Login';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,9 +28,14 @@ export default function Navbar() {
   const classes = useStyles();
 
   var [isSignUp, setIsSignUp] = useState(false);
+  var [isLogin, setIsLogin] = useState(false);
 
   function toggleSignUp() {
     setIsSignUp(!isSignUp);
+  }
+
+  function toggleLogin() {
+    setIsLogin(!isLogin);
   }
 
   return (
@@ -43,10 +49,13 @@ export default function Navbar() {
             Noted.
           </Typography>
           <Button color="inherit" onClick={toggleSignUp}>Sign Up</Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={toggleLogin}>Login</Button>
 
           {isSignUp && 
             <SignUp handleClose={toggleSignUp}/>
+          }
+          {isLogin && 
+            <Login handleClose={toggleLogin}/>
           }
 
         </Toolbar>
