@@ -46,6 +46,11 @@ export default function SignUp({handleClose}) {
   
 
   function submit() {
+    axios.post('/api/signup', {username, email, password})
+    .then((res) => {
+      console.log(res);
+      handleClose();
+    });
   }
 
   return (
