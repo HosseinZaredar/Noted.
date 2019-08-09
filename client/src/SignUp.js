@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
-  button: {
+  title: {
+    fontSize: '25px'
   }
 }));
 
@@ -49,7 +50,6 @@ export default function SignUp({handleClose}) {
     axios.post('/api/signup', {username, email, password})
     .then((res) => {
       console.log(res);
-      handleClose();
     });
   }
 
@@ -59,7 +59,6 @@ export default function SignUp({handleClose}) {
       fullWidth={true}
       maxWidth="xs"
       open={true}
-      onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       className={classes.dialog}
@@ -71,6 +70,9 @@ export default function SignUp({handleClose}) {
           alignItems="center"
           justify="center"
           >
+              <Grid item className={classes.title}>
+                  Sign Up  
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   label="Username"

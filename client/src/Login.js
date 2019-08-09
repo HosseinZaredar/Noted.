@@ -21,11 +21,12 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
-  button: {
+  title: {
+    fontSize: '25px'
   }
 }));
 
-export default function Login({handleClose}) {
+export default function Login() {
   const classes = useStyles();
 
   var [email, setEmail] = useState('');
@@ -44,7 +45,6 @@ export default function Login({handleClose}) {
     axios.post('/api/login', {email, password})
     .then((res) => {
       console.log(res);
-      handleClose();
     });
   }
 
@@ -54,7 +54,6 @@ export default function Login({handleClose}) {
       fullWidth={true}
       maxWidth="xs"
       open={true}
-      onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       className={classes.dialog}
@@ -66,6 +65,9 @@ export default function Login({handleClose}) {
           alignItems="center"
           justify="center"
           >
+              <Grid item className={classes.title}>
+                Login  
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   label="Email"
