@@ -3,12 +3,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
+import {Redirect} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
-import SignUp from './SignUp';
-import Login from './Login';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,15 +27,14 @@ const useStyles = makeStyles(theme => ({
 export default function Navbar() {
   const classes = useStyles();
 
-  var [isSignUp, setIsSignUp] = useState(false);
-  var [isLogin, setIsLogin] = useState(false);
-
-  function toggleSignUp() {
-    setIsSignUp(!isSignUp);
+  var [logout, setLogout] = useState(false);
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    setLogout(true);
   }
 
-  function toggleLogin() {
-    setIsLogin(!isLogin);
+  if (logout) {
+    return(<Redirect to="/login" />);
   }
 
   return (
@@ -48,16 +47,7 @@ export default function Navbar() {
           <Typography variant="h6" className={classes.title}>
             Noted.
           </Typography>
-          <Button color="inherit" onClick={toggleSignUp}>Sign Up</Button>
-          <Button color="inherit" onClick={toggleLogin}>Login</Button>
-
-          {isSignUp && 
-            <SignUp handleClose={toggleSignUp}/>
-          }
-          {isLogin && 
-            <Login handleClose={toggleLogin}/>
-          }
-
+          <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

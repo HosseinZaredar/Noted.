@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import {Redirect} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
+import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-
 
 const useStyles = makeStyles(theme => ({
   dialog: {
@@ -23,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontSize: '25px'
+  },
+  button: {
+    marginBottom: '5px'
   }
 }));
 
@@ -31,6 +35,7 @@ export default function Login() {
 
   var [email, setEmail] = useState('');
   var [password, setPassword] = useState('');
+  var [redirect, setRedirect] = useState(false);
 
   function changeEmail(e) {
     setEmail(e.target.value);
@@ -44,12 +49,19 @@ export default function Login() {
   function submit() {
     axios.post('/api/login', {email, password})
     .then((res) => {
-      console.log(res);
+      if (res.data.token) {
+        localStorage.setItem('jwt', res.data.token);
+        setRedirect(true);
+      }
     });
   }
 
+  if (redirect) {
+    return(<Redirect to="/" />)
+  } 
+
+
   return (
-    
     <Dialog
       fullWidth={true}
       maxWidth="xs"
@@ -79,6 +91,7 @@ export default function Login() {
                   autoComplete="email"
                   margin="normal"
                   variant="outlined"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
@@ -94,7 +107,14 @@ export default function Login() {
                 />
               </Grid>
               <Grid item>
-                <Button color="inherit" className={classes.button} onClick={submit}>Login</Button>    
+                <Button color="primary" variant="outlined" className={classes.button} onClick={submit}>Login</Button>    
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />  
+              </Grid>
+              <Grid item>
+                Don't have an account?   
+                <Link to="/signup">Sign up</Link>
               </Grid>
           </Grid>
         </DialogContent>

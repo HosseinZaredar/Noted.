@@ -4,14 +4,6 @@ const path = require('path');
 const APIRouter = require('./api/api');
 const bodyParser = require('body-parser');
 
-//seed database
-const seedDB = require('./seedDB');
-
-//express setup
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -19,11 +11,19 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+//seed database
+require('./seedDB');
+
+//bodyParser setup
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 //API
 app.use('/api', APIRouter);
 
-const port = process.env.PORT || 5000;
-app.listen(port);
+app.listen(8080);
