@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import {Route, Switch} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import {isAuthenticated} from './util/auth';
+import {UserProvider} from './contexts/UserContext';
 
 
 export default function App() {
@@ -14,16 +15,18 @@ export default function App() {
 
   return (
     <div className="App">
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
-        {isAuthenticated() ? <Route exact path="/" render={() =>
-          <div>
-            <Navbar />
-            <Body />
-          </div>
-        } /> : <Redirect to="/login" />}
-      </Switch> 
+      <UserProvider>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          {isAuthenticated() ? <Route exact path="/" render={() =>
+            <div>
+              <Navbar />
+              <Body />
+            </div>
+          } /> : <Redirect to="/login" />}
+        </Switch>
+      </UserProvider> 
     </div>
   );
 }

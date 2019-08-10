@@ -53,6 +53,23 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+router.get('/username', function(req, res, next) {
+  var token = req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, 'some untold secret', (err, decoded) => {
+      User.findById(decoded.id, function(err, user) {
+        res.status(200).json({
+          username: user.username
+        });
+      });
+    });
+  } else {
+    res.status(200).json({
+      username: ''
+    });
+  }
+});
+
 router.get('/protected', function(req, res, next) {
   var token = req.headers['authorization'];
   jwt.verify(token, 'some untold secret', (err, decoded) => {
