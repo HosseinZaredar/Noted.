@@ -47,7 +47,6 @@ export default function Navbar() {
       var token = localStorage.getItem('jwt');
       axios.get('/api/username', {headers: {'Authorization': token}})
        .then((res) => {
-        console.log('Hell: ' + res.data.username);
         setUsername(res.data.username);
       });
     }

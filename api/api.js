@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./User');
+const Note = require('./Note');
 const jwt = require('jsonwebtoken');
 
 router.get('/', function(req, res, next) {
@@ -70,11 +71,37 @@ router.get('/username', function(req, res, next) {
   }
 });
 
-router.get('/protected', function(req, res, next) {
+router.post('/note', (req, res, next) => {
   var token = req.headers['authorization'];
-  jwt.verify(token, 'some untold secret', (err, decoded) => {
-    console.log(decoded);
-  });
+  if (token) {
+    jwt.verify(token, 'some untold secret', (err, decoded) => {
+      Note.create({title: req.body.title, content: req.body.content}, function(err, note) {
+        User.findById(decoded.id, (err, user) => {
+          user.notes = [...user.notes, note._id]
+          user.save(() => {
+            res.status(200).json({
+              id: note._id
+            });
+          });
+        });
+      });
+    }); 
+  }
+});
+
+router.get('/notes', (req, res, next) => {
+  var token = req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, 'some untold secret', (err, decoded) => {
+      User.findById(decoded.id)
+      .populate('notes')
+      .exec((err, user) => {
+        res.status(200).json({
+          notes: user.notes
+        });
+      });
+    }); 
+  }
 });
 
 

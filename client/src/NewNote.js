@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
@@ -51,7 +50,6 @@ export default function NewNote({handleAdd}) {
   function handleSubmit() {
     setIsOpen(false);
     handleAdd({
-      id: Date.now(),
       title: title,
       content: content
     });

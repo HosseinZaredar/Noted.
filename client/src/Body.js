@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import NoteList from './NoteList';
 import NewNote from './NewNote';
@@ -20,8 +20,28 @@ export default function Body() {
   var [notes, setNotes] = useState([]);
   
   function handleAdd(note) {
-    setNotes([...notes, note]);
+    var token = localStorage.getItem('jwt');
+    axios.post('/api/note', {title: note.title, content: note.content},
+    {headers: {'Authorization': token}})
+    .then((res) => {
+      var noteWithId = {...note, id: res.data.id}
+      setNotes([...notes, noteWithId]);
+    }); 
   }
+
+  function fetchNotes() {
+    var token = localStorage.getItem('jwt');
+    axios.get('/api/notes', {headers: {'Authorization': token}})
+    .then((res) => {
+      setNotes(res.data.notes);
+    }); 
+  }
+
+  useEffect(() => {
+    if (notes.length === 0) {
+      fetchNotes();
+    }
+  });
 
   function deleteNote(id) {
     var newNotes = notes.filter(function (note, index, arr) {
