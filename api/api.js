@@ -104,5 +104,24 @@ router.get('/notes', (req, res, next) => {
   }
 });
 
+router.delete('/note/:id', (req, res, next) => {
+  var _id = req.params.id;
+  var token = req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, 'some untold secret', (err, decoded) => {
+      User.findById(decoded.id, (err, user) => {
+          user.notes = user.notes.filter(function(note, index, array) {
+            return note._id != _id;
+          });
+          user.save((err, newUser) => {
+            res.status(200).json({
+              status: 'ok'
+            });
+          });
+      });
+    }); 
+  }
+});
+
 
 module.exports = router;

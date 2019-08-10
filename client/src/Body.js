@@ -24,7 +24,7 @@ export default function Body() {
     axios.post('/api/note', {title: note.title, content: note.content},
     {headers: {'Authorization': token}})
     .then((res) => {
-      var noteWithId = {...note, id: res.data.id}
+      var noteWithId = {...note, _id: res.data.id}
       setNotes([...notes, noteWithId]);
     }); 
   }
@@ -43,16 +43,20 @@ export default function Body() {
     }
   });
 
-  function deleteNote(id) {
-    var newNotes = notes.filter(function (note, index, arr) {
-      return note.id != id;
+  function deleteNote(_id) {
+    var token = localStorage.getItem('jwt');
+    axios.delete('/api/note/' + _id,  {headers: {'Authorization': token}})
+    .then((res) => {
+      var newNotes = notes.filter(function (note, index, arr) {
+      return note._id != _id;
     })
     setNotes(newNotes);
+    });
   }
 
-  function saveNote(id, note) {
-    var index = notes.findIndex(note => note.id === id);
-    notes[index] = {id: id, ...note};
+  function saveNote(_id, note) {
+    var index = notes.findIndex(note => note._id === _id);
+    notes[index] = {_id: _id, ...note};
     setNotes([...notes]);    
   }
 

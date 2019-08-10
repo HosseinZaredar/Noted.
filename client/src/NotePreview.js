@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NotePreview({id, title, content, deleteNote, saveNote}) {
+export default function NotePreview({_id, title, content, deleteNote, saveNote}) {
   const classes = useStyles();
 
   var [isOpen, setIsOpen] = useState(false);
@@ -70,7 +70,7 @@ export default function NotePreview({id, title, content, deleteNote, saveNote}) 
   function handleClose() {
     setIsOpen(false);
     if (changed) {
-      saveNote(id, {
+      saveNote(_id, {
         title: titleInput,
         content: contentInput
       });
@@ -78,7 +78,7 @@ export default function NotePreview({id, title, content, deleteNote, saveNote}) 
   }
 
   function handleDelete() {
-    deleteNote(id);
+    deleteNote(_id);
   }
 
 
