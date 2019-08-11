@@ -31,7 +31,7 @@ export default function Body() {
 
   function fetchNotes() {
     var token = localStorage.getItem('jwt');
-    axios.get('/api/notes', {headers: {'Authorization': token}})
+    axios.get('/api/note', {headers: {'Authorization': token}})
     .then((res) => {
       setNotes(res.data.notes);
     }); 
@@ -55,9 +55,13 @@ export default function Body() {
   }
 
   function saveNote(_id, note) {
-    var index = notes.findIndex(note => note._id === _id);
-    notes[index] = {_id: _id, ...note};
-    setNotes([...notes]);    
+    var token = localStorage.getItem('jwt');
+    axios.put('/api/note/' + _id, {note}, {headers: {'Authorization': token}})
+    .then((res) => {
+      var index = notes.findIndex(note => note._id === _id);
+      notes[index] = {_id: _id, ...note};
+      setNotes([...notes]); 
+    }); 
   }
 
   return (
