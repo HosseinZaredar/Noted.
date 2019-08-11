@@ -4,59 +4,38 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 const Note = require('../Models/Note');
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res) => {
   var token = req.headers['authorization'];
   if (token) {
-    jwt.verify(token, 'some untold secret', (err, decoded) => {
-      User.findById(decoded.id)
-      .populate('trashNotes')
-      .exec((err, user) => {
-        res.status(200).json({
-          notes: user.trashNotes
-        });
-      });
-    }); 
+    var decoded = await jwt.verify(token, 'some untold secret')
+    var user = await User.findById(decoded.id).populate('trashNotes').exec();
+    res.status(200).json({notes: user.trashNotes});
   }
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res) => {
   var _id = req.params.id;
   var token = req.headers['authorization'];
   if (token) {
-    jwt.verify(token, 'some untold secret', (err, decoded) => {
-      User.findById(decoded.id, (err, user) => {
-          user.trashNotes = user.trashNotes.filter(function(note, index, array) {
-            return note._id != _id;
-          });
-          user.save(() => {
-            Note.findByIdAndDelete(_id, function() {
-              res.status(200).json({
-                status: 'ok'
-              });
-            });
-          });
-      });
-    }); 
+    var decoded = await jwt.verify(token, 'some untold secret');
+    var user = await User.findById(decoded.id)
+    user.trashNotes = user.trashNotes.filter(note => note._id != _id);
+    await user.save()
+    await Note.findByIdAndDelete(_id);
+    res.status(200).json({status: 'ok'});
   }
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', async (req, res) => {
   var _id = req.params.id;
   var token = req.headers['authorization'];
   if (token) {
-    jwt.verify(token, 'some untold secret', (err, decoded) => {
-      User.findById(decoded.id, (err, user) => {
-          user.trashNotes = user.trashNotes.filter(function(note, index, array) {
-            return note._id != _id;
-          });
-          user.notes.push(_id);
-          user.save(() => {
-              res.status(200).json({
-                status: 'ok'
-              });
-          });
-      });
-    }); 
+    var decoded = await jwt.verify(token, 'some untold secret');
+    var user = await User.findById(decoded.id);
+    user.trashNotes = user.trashNotes.filter(note =>note._id != _id);
+    user.notes.push(_id);
+    await user.save();
+    res.status(200).json({status: 'ok'});    
   }
 });
 

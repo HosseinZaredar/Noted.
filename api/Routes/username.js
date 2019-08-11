@@ -3,20 +3,14 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 
-router.get('/', function(req, res, next) {
+router.get('/', async (req, res) => {
   var token = req.headers['authorization'];
   if (token) {
-    jwt.verify(token, 'some untold secret', (err, decoded) => {
-      User.findById(decoded.id, function(err, user) {
-        res.status(200).json({
-          username: user.username
-        });
-      });
-    });
+    var decoded = await jwt.verify(token, 'some untold secret');
+    var user = await User.findById(decoded.id);
+    res.status(200).json({username: user.username});  
   } else {
-    res.status(200).json({
-      username: ''
-    });
+    res.status(200).json({username: ''});
   }
 });
 
