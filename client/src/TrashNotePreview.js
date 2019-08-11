@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RestoreIcon from '@material-ui/icons/RestorePage';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import contentCrop from './util/contentCrop';
@@ -41,17 +42,15 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     fontSize: 20,
     fontWeight: "bold",
-    width: '500px'
   },
   contentDialog: {
     display: 'block',
     fontSize: 14,
     margin: "5px",
-    width: '100%'
   },
 }));
 
-export default function NotePreview({_id, title, content, deleteNote}) {
+export default function NotePreview({_id, title, content, restoreNote, deleteNote}) {
   const classes = useStyles();
 
   var [isOpen, setIsOpen] = useState(false);
@@ -64,6 +63,11 @@ export default function NotePreview({_id, title, content, deleteNote}) {
     setIsOpen(false);   
   }
 
+  function handleRestore() {
+    restoreNote(_id);
+    setIsOpen(false);
+  }
+
   function handleDelete() {
     deleteNote(_id);
     setIsOpen(false);
@@ -74,11 +78,12 @@ export default function NotePreview({_id, title, content, deleteNote}) {
         <Typography className={classes.titleDialog}>
           {title}
         </Typography>
-        <Divider variant="root" />
+        <Divider />
         <Typography className={classes.contentDialog}>
           {content}
         </Typography>
         <br></br>
+        <RestoreIcon className={classes.icon} onClick={handleRestore}/>
         <DeleteIcon className={classes.icon} onClick={handleDelete}/>
         <Button color="inherit" className={classes.button} onClick={handleClose}>Close</Button>
       </div>
@@ -87,6 +92,8 @@ export default function NotePreview({_id, title, content, deleteNote}) {
   return (
     <div>
       <Dialog
+      maxWidth="sm"
+      fullWidth={true}
       open={isOpen}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
@@ -104,7 +111,7 @@ export default function NotePreview({_id, title, content, deleteNote}) {
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          <Divider variant="root" />
+          <Divider />
           <Typography variant="h6" className={classes.content}>
             {contentCrop(content)}
           </Typography>

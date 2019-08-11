@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import BookIcon from '@material-ui/icons/BookOutlined';
 import TrashIcon from '@material-ui/icons/DeleteOutlined';
 import CheckIcon from '@material-ui/icons/CheckBoxOutlined';
-import {Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,14 +36,28 @@ function Drawer({history, isOpen, toggleDrawer}) {
       </Typography>
       <Divider/>
       <List className={classes.list}>
+        {history.location.pathname === "/" ?
+        <ListItem selected button onClick={() => {history.push('/'); toggleDrawer();}}>
+          <ListItemIcon><BookIcon/></ListItemIcon>
+          <ListItemText primary="Notes" />
+        </ListItem>
+        :
         <ListItem button onClick={() => {history.push('/'); toggleDrawer();}}>
           <ListItemIcon><BookIcon/></ListItemIcon>
           <ListItemText primary="Notes" />
         </ListItem>
+        }
+        {history.location.pathname === "/trash" ?
+        <ListItem selected button onClick={() => {history.push('/trash'); toggleDrawer();}}>
+          <ListItemIcon><TrashIcon/></ListItemIcon>
+          <ListItemText primary="Trash" />
+        </ListItem>
+        :
         <ListItem button onClick={() => {history.push('/trash'); toggleDrawer();}}>
           <ListItemIcon><TrashIcon/></ListItemIcon>
           <ListItemText primary="Trash" />
         </ListItem>
+        }
       </List>
     </DrawerComponent>
   );

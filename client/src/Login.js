@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
@@ -30,12 +30,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Login() {
+function Login({history}) {
   const classes = useStyles();
 
   var [email, setEmail] = useState('');
   var [password, setPassword] = useState('');
-  var [redirect, setRedirect] = useState(false);
 
   function changeEmail(e) {
     setEmail(e.target.value);
@@ -51,15 +50,10 @@ export default function Login() {
     .then((res) => {
       if (res.data.token) {
         localStorage.setItem('jwt', res.data.token);
-        setRedirect(true);
+        history.push('/');
       }
     });
   }
-
-  if (redirect) {
-    return(<Redirect to="/" />)
-  } 
-
 
   return (
     <Dialog
@@ -121,3 +115,5 @@ export default function Login() {
       </Dialog>
   );
 }
+
+export default withRouter(Login);

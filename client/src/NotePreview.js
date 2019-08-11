@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
@@ -10,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-
 import contentCrop from './util/contentCrop';
 
 const useStyles = makeStyles(theme => ({
@@ -44,13 +42,11 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     fontSize: 20,
     fontWeight: "bold",
-    width: '500px'
   },
   contentInput: {
     display: 'block',
     fontSize: 14,
     margin: "5px",
-    width: '100%'
   },
 }));
 
@@ -84,7 +80,7 @@ export default function NotePreview({_id, title, content, deleteNote, saveNote})
 
 
   function handleChange(e) {
-    if (e.target.name == 'title') {
+    if (e.target.name === 'title') {
       setTitleInput(e.target.value);
     } else {
       setContentInput(e.target.value);
@@ -102,7 +98,7 @@ export default function NotePreview({_id, title, content, deleteNote, saveNote})
           inputProps={{ 'aria-label': 'naked' }}
           margin="none"
         />
-        <Divider variant="root" />
+        <Divider />
         <InputBase
           placeholder="Content"
           name="content"
@@ -126,6 +122,8 @@ export default function NotePreview({_id, title, content, deleteNote, saveNote})
       <Dialog
       open={isOpen}
       onClose={handleClose}
+      maxWidth="sm"
+      fullWidth={true}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       className={classes.dialog}
@@ -141,7 +139,7 @@ export default function NotePreview({_id, title, content, deleteNote, saveNote})
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          <Divider variant="root" />
+          <Divider />
           <Typography variant="h6" className={classes.content}>
             {contentCrop(content)}
           </Typography>

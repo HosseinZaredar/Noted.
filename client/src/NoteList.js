@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import NotePreview from './NotePreview';
@@ -13,8 +12,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoteList({isTrash, notes, deleteNote, saveNote}) {
+export default function NoteList({isTrash, notes, restoreNote, deleteNote, saveNote}) {
   const classes = useStyles();
+
+  function handleRestore(_id) {
+    restoreNote(_id);
+  }
 
   function handleDelete(_id) {
     deleteNote(_id);
@@ -30,9 +33,9 @@ export default function NoteList({isTrash, notes, deleteNote, saveNote}) {
 
         {notes.map(note => {
           return(
-            <Grid item xs={12} sm={6} md={4} lg={3}>   
+            <Grid item key={note._id} xs={12} sm={6} md={4} lg={3}>   
               {isTrash ? 
-               <TrashNotePreview deleteNote={handleDelete} _id={note._id} title={note.title} content={note.content} />                
+               <TrashNotePreview deleteNote={handleDelete} restoreNote={handleRestore} _id={note._id} title={note.title} content={note.content} />                
               :
                <NotePreview deleteNote={handleDelete} saveNote={handleSave} _id={note._id} title={note.title} content={note.content} />
               } 

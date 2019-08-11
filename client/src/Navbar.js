@@ -13,9 +13,6 @@ import axios from 'axios';
 import Drawer from './Drawer';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -33,13 +33,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp() {
+function SignUp({history}) {
   const classes = useStyles();
 
   var [username, setUsername] = useState('');
   var [email, setEmail] = useState('');
   var [password, setPassword] = useState('');
-  var [redirect, setRedirect] = useState(false);
 
   function changeUsername(e) {
     setUsername(e.target.value);
@@ -58,12 +57,8 @@ export default function SignUp() {
     axios.post('/api/signup', {username, email, password})
     .then((res) => {
       if (res.data.status === 'ok')
-        setRedirect(true);
+        history.push('/login');
     });
-  }
-
-  if (redirect) {
-    return(<Redirect to="/login"/>)
   }
 
   return (
@@ -138,3 +133,5 @@ export default function SignUp() {
       </Dialog>
   );
 }
+
+export default withRouter(SignUp);

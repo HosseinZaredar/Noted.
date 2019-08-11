@@ -40,7 +40,7 @@ export default function NewNote({handleAdd}) {
   }
 
   function handleChange(e) {
-    if (e.target.name == 'title') {
+    if (e.target.name === 'title') {
       setTitle(e.target.value);
     } else {
       setContent(e.target.value);

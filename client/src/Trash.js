@@ -32,9 +32,20 @@ export default function Trash() {
     }
   });
 
+  function restoreNote(_id) {
+    var token = localStorage.getItem('jwt');
+    axios.put('/api/trash/' + _id, {}, {headers: {'Authorization': token}})
+    .then((res) => {
+        var newNotes = notes.filter(function (note, index, arr) {
+          return note._id != _id;
+        });
+        setNotes(newNotes);
+    });
+  }
+
   function deleteNoteForever(_id) {
     var token = localStorage.getItem('jwt');
-    axios.delete('/api/trash/' + _id,  {headers: {'Authorization': token}})
+    axios.delete('/api/trash/' + _id, {headers: {'Authorization': token}})
     .then((res) => {
       var newNotes = notes.filter(function (note, index, arr) {
       return note._id != _id;
@@ -46,7 +57,7 @@ export default function Trash() {
 
   return (
     <div className={classes.root}>
-      <NoteList isTrash={true} deleteNote={deleteNoteForever} notes={notes} />
+      <NoteList isTrash={true} restoreNote={restoreNote} deleteNote={deleteNoteForever} notes={notes} />
     </div>
   );
 }

@@ -25,7 +25,7 @@ router.delete('/:id', (req, res, next) => {
   if (token) {
     jwt.verify(token, 'some untold secret', (err, decoded) => {
       User.findById(decoded.id, (err, user) => {
-          user.trashNotes = user.notes.filter(function(note, index, array) {
+          user.trashNotes = user.trashNotes.filter(function(note, index, array) {
             return note._id != _id;
           });
           user.save(() => {
@@ -34,6 +34,26 @@ router.delete('/:id', (req, res, next) => {
                 status: 'ok'
               });
             });
+          });
+      });
+    }); 
+  }
+});
+
+router.put('/:id', (req, res, next) => {
+  var _id = req.params.id;
+  var token = req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, 'some untold secret', (err, decoded) => {
+      User.findById(decoded.id, (err, user) => {
+          user.trashNotes = user.trashNotes.filter(function(note, index, array) {
+            return note._id != _id;
+          });
+          user.notes.push(_id);
+          user.save(() => {
+              res.status(200).json({
+                status: 'ok'
+              });
           });
       });
     }); 
