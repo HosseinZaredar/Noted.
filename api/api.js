@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./Models/User');
-const Note = require('./Models/Note');
-const jwt = require('jsonwebtoken');
 
 //Routers
 const signupRouter = require('./Routes/signup');

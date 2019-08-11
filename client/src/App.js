@@ -25,6 +25,11 @@ export default function App() {
               <Body />
             </div>
           } /> : <Redirect to="/login" />}
+          {isAuthenticated() ? <Route exact path="/trash" render={() =>
+            <div>
+              <Navbar />
+            </div>
+          } /> : <Redirect to="/login" />}
         </Switch>
       </UserProvider> 
     </div>
