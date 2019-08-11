@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import NotePreview from './NotePreview';
+import TrashNotePreview from './TrashNotePreview';
 
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoteList({notes, deleteNote, saveNote}) {
+export default function NoteList({isTrash, notes, deleteNote, saveNote}) {
   const classes = useStyles();
 
   function handleDelete(_id) {
@@ -29,8 +30,12 @@ export default function NoteList({notes, deleteNote, saveNote}) {
 
         {notes.map(note => {
           return(
-            <Grid item xs={12} sm={6} md={4} lg={3}>        
-              <NotePreview deleteNote={handleDelete} saveNote={handleSave} _id={note._id} title={note.title} content={note.content} />
+            <Grid item xs={12} sm={6} md={4} lg={3}>   
+              {isTrash ? 
+               <TrashNotePreview deleteNote={handleDelete} _id={note._id} title={note.title} content={note.content} />                
+              :
+               <NotePreview deleteNote={handleDelete} saveNote={handleSave} _id={note._id} title={note.title} content={note.content} />
+              } 
             </Grid>
           );
         })}

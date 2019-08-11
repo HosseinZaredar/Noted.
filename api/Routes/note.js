@@ -46,6 +46,7 @@ router.delete('/:id', (req, res, next) => {
           user.notes = user.notes.filter(function(note, index, array) {
             return note._id != _id;
           });
+          user.trashNotes.push(_id);
           user.save((err, newUser) => {
             res.status(200).json({
               status: 'ok'

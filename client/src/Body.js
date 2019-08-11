@@ -49,8 +49,8 @@ export default function Body() {
     .then((res) => {
       var newNotes = notes.filter(function (note, index, arr) {
       return note._id != _id;
-    })
-    setNotes(newNotes);
+      });
+      setNotes(newNotes);
     });
   }
 
@@ -67,7 +67,7 @@ export default function Body() {
   return (
     <div className={classes.root}>
       <NewNote handleAdd={handleAdd} />
-      <NoteList deleteNote={deleteNote} saveNote={saveNote} notes={notes} />
+      <NoteList isTrash={false} deleteNote={deleteNote} saveNote={saveNote} notes={notes} />
     </div>
   );
 }

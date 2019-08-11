@@ -4,6 +4,7 @@ import './App.css';
 import Body from './Body';
 import Login from './Login';
 import SignUp from './SignUp';
+import Trash from './Trash';
 import {Route, Switch} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import {isAuthenticated} from './util/auth';
@@ -28,6 +29,7 @@ export default function App() {
           {isAuthenticated() ? <Route exact path="/trash" render={() =>
             <div>
               <Navbar />
+              <Trash />
             </div>
           } /> : <Redirect to="/login" />}
         </Switch>
